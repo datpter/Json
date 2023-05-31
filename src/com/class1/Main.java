@@ -4,16 +4,14 @@ public class Main {
     public static void main(String[] args) {
         try {
             JsonManagerment jsonManagerment = new JsonManagerment();
-            jsonManagerment.readJSONFromAPI();
-        jsonManagerment.readJSONperson();
+            jsonManagerment.readJSONFromApijsonplaceholder();
+
+
 
 
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
 
     }
 }

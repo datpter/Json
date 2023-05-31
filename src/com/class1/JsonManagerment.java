@@ -1,5 +1,6 @@
 package com.class1;
 
+import com.class1.model.Post;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -9,49 +10,63 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
+import com.class1.controller.postController;
 
 public class JsonManagerment {
-    public void readJSONFromAPI() throws Exception {
-        try {
-            String apiUrl = " https://api.apify.com/v2/key-value-stores/EaCBL1JNntjR3EakU/records/LATEST?disableRedirect=true.";
-            URL url = new URL(apiUrl);
 
-            // Create connection
+    postController postController = new postController();
+
+
+    public void readJSONFromApijsonplaceholder()throws Exception{
+
+
+        try {
+            String apiURL = "https://jsonplaceholder.typicode.com/posts";
+            URL url = new URL(apiURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-
-            // Read response
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+            BufferedReader reader= new BufferedReader(
+                    new InputStreamReader(conn.getInputStream())
+            );
             StringBuilder response = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line= reader.readLine())!= null){
                 response.append(line);
             }
             reader.close();
-
-            System.out.println(response.toString());
-
             org.json.JSONArray jsonArray = new org.json.JSONArray(response.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                org.json.JSONObject product
+            for (int i = 0 ;i<jsonArray.length();i++){
+                org.json.JSONObject post
                         = (org.json.JSONObject) jsonArray.get(i);
-                int id = Integer.parseInt(product.get("id").toString());
-                String title = product.get("title").toString();
-                String imageurl = product.get("imageurl").toString();
-                String category = product.get("category").toString();
-                float price =  Float.parseFloat(product.get("price").toString());
+                System.out.println();
+                System.out.println();
+                System.out.println();
+                System.out.println();
+                Post newPost= new Post(
+                        Integer.parseInt(post.get("id").toString()),
+                        Integer.parseInt(post.get("userId").toString()),
+                        post.get("title").toString(),
+                        post.get("body").toString()
 
-                System.out.println(id+","+ title +","+imageurl+
-                        " , "+category+" , "+price);
+                );
+                System.out.println("Inserting.......");
+                postController.insertNewapis(newPost);
+
             }
 
-            conn.disconnect();
 
-        } catch (Exception e) {
+
+        }catch (Exception e){
             System.out.println(e.getMessage());
+            e.printStackTrace();
+
         }
     }
+
+
+
+
+
     public void readJSONperson()throws Exception{
         try {
             JSONParser jsonParser = new JSONParser();
